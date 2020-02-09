@@ -89,17 +89,46 @@ const ellipses = (n = 1, c = '#ff0000') => {
   return body;
 };
 
+const rectangle = (c = '#ff0000', y = 138) => `
+  <rect
+    fill="${c}"
+    x="11"
+    y="${y}"
+    width="38"
+    height="15"
+  />
+`;
+
+const rectangles = (n = 1, c = '#ff0000') => {
+  let y = 168 - n * 10;
+  let body = '';
+  while (n--) {
+    console.log('rect', y);
+    body += rectangle(c, y);
+    y += 20;
+  }
+  return body;
+};
+
+const waves = (n = 1, c = '#ff0000') => {
+  return '';
+};
+
 const parseColor = c =>
   ({
-    p: '#ff0000',
-    z: '#007f00',
-    l: '#7f007f'
+    r: '#ff0000',
+    g: '#007f00',
+    p: '#7f007f'
   }[c]);
 
 function front(code) {
-  const n = parseInt(code.substr(0, 1), 10);
-  const c = parseColor(code.substr(1, 1));
-  const body = ellipses(n, c);
+  const [numof, color, shape, fill] = code.split('');
+  console.log(numof, color);
+  const body = {
+    e: ellipses,
+    r: rectangles,
+    w: waves
+  }[shape](numof, parseColor(color));
   return outline(body);
 }
 
@@ -107,7 +136,7 @@ let card = back();
 let stage = document.getElementById('stage');
 stage.innerHTML = card;
 
-card = front('1let');
+card = front('1rrt');
 stage.insertAdjacentHTML('beforeend', card);
 console.log('hi2');
 
