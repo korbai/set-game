@@ -69,16 +69,46 @@ const back = (text = 'SET!') =>
     >${text}</text>
   `);
 
+const ellipse = (c = '#ff0000', y = 45) => `
+  <ellipse
+    ry="9"
+    rx="20"
+    cy="${y}"
+    cx="30"
+    fill="${c}"
+  />
+`;
+
+const ellipses = (n = 1, c = '#ff0000') => {
+  let y = 55 - n * 10;
+  let body = '';
+  while (n--) {
+    body += ellipse(c, y);
+    y += 20;
+  }
+  return body;
+};
+
+const parseColor = c =>
+  ({
+    p: '#ff0000',
+    z: '#007f00',
+    l: '#7f007f'
+  }[c]);
+
 function front(code) {
-  return outline(`
-    <rect ry="5" rx="5" stroke="#7f7f00" height="90" width="60" y="0" x="0" fill="#ffffdd" id="svg_1" />
-  `);
+  const n = parseInt(code.substr(0, 1), 10);
+  const c = parseColor(code.substr(1, 1));
+  const body = ellipses(n, c);
+  return outline(body);
 }
 
 let card = back();
 let stage = document.getElementById('stage');
 stage.innerHTML = card;
 
+card = front('1let');
+stage.insertAdjacentHTML('beforeend', card);
 console.log('hi2');
 
 document.getElementById('app').innerHTML = `
