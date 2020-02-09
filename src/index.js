@@ -1,7 +1,7 @@
 import './styles.css';
 
-function outline(body, width = 60, height = 90) {
-  return `
+const outline = (body, width = 60, height = 90) =>
+  `
     <svg viewBox="0 0 60 90" width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
       <g>
         <rect ry="5" rx="5" stroke="#7f7f00" height="90" width="60" y="0" x="0" fill="#ffffdd" />
@@ -9,10 +9,9 @@ function outline(body, width = 60, height = 90) {
       </g>
     </svg>
   `;
-}
 
-function back() {
-  return outline(`
+const back = (text = 'SET!') =>
+  outline(`
     <path
       d="M6,5 l5,10 l-5,10 l5,10 l-5,10 l5,10 l-5,10 l5,10 l-5,10 l8,-5 l8,5 l8,-5 l8,5 l8,-5 l8,5 l-5,-10 l5,-10 l-5,-10 l5,-10 l-5,-10 l5,-10 l-5,-10 l5,-10 l-8,5 l-8,-5 l-8,5 l-8,-5 l-8,5 Z"
       fill="#0080d0"
@@ -53,7 +52,7 @@ function back() {
       x="-24.2949"
       stroke-width="0"
       fill="#00007f"
-    >SET!</text>
+    >${text}</text>
     <text
       font-weight="bold"
       stroke="#000000"
@@ -67,9 +66,8 @@ function back() {
       x="-25.24512"
       stroke-width="0"
       fill="#ffffff"
-    >SET!</text>
+    >${text}</text>
   `);
-}
 
 function front(code) {
   return outline(`
@@ -77,7 +75,7 @@ function front(code) {
   `);
 }
 
-let card = back('abcd');
+let card = back();
 let stage = document.getElementById('stage');
 stage.innerHTML = card;
 
