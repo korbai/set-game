@@ -136,12 +136,12 @@ let card = back();
 let stage = document.getElementById('stage');
 stage.innerHTML = card;
 
-card = front('1rrt');
+card = front('3ret');
 stage.insertAdjacentHTML('beforeend', card);
 console.log('hi2');
 
 document.getElementById('app').innerHTML = `
-<h1>Set Game!</h1>
+<h1>Set Game!!!</h1>
 <div>
   Under construction...
 </div>
