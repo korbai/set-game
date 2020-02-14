@@ -80,13 +80,15 @@ const back = (text = 'SET!') =>
     >${text}</text>
   `);
 
-const ellipse = (c = '#ff0000', y = 45) => `
+const ellipse = (stroke = '#ff0000', fill = '#ff0000', y = 45) => `
   <ellipse
-    ry="9"
+    ry="8"
     rx="20"
     cy="${y}"
     cx="30"
-    fill="${c}"
+    fill="${fill}"
+    stroke="${stroke}"
+    stroke-width="2"
   />
 `;
 
@@ -102,12 +104,12 @@ const rectangle = (stroke = '#ff0000', fill = '#ff0000', y = 138) => `
   />
 `;
 
-const wave = (c = '#ff0000', y = 138) => `
+const wave = (stroke = '#ff0000', fill = '#ff0000', y = 138) => `
   <path
     d="m11,${y}c12.59556,-8.27143 25.19112,8.27143 37.78668,0l0,14.88858c-12.59556,8.27143 -25.19112,-8.27143 -37.78668,0l0,-14.88858z"
-    fill="${c}"
-    stroke-opacity="0"
-    stroke="#000000"
+    fill="${fill}"
+    stroke="${stroke}"
+    stroke-width="2"
   />
 `;
 
@@ -163,7 +165,7 @@ stage.innerHTML = card;
 // color of card: g r p
 // shape of card: r e w
 // fill of shape: e f h
-card = front('2grf');
+card = front('3rwf');
 stage.insertAdjacentHTML('beforeend', card);
 
 document.getElementById('app').innerHTML = `
