@@ -159,6 +159,10 @@ let card = back();
 let stage = document.getElementById('stage');
 stage.innerHTML = card;
 
+// number of shapes: 1 2 3
+// color of card: g r p
+// shape of card: r e w
+// fill of shape: e f h
 card = front('2grf');
 stage.insertAdjacentHTML('beforeend', card);
 
