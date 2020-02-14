@@ -79,16 +79,6 @@ const ellipse = (c = '#ff0000', y = 45) => `
   />
 `;
 
-const ellipses = (n = 1, c = '#ff0000') => {
-  let y = 55 - n * 10;
-  let body = '';
-  while (n--) {
-    body += ellipse(c, y);
-    y += 20;
-  }
-  return body;
-};
-
 const rectangle = (c = '#ff0000', y = 138) => `
   <rect
     fill="${c}"
@@ -99,19 +89,23 @@ const rectangle = (c = '#ff0000', y = 138) => `
   />
 `;
 
-const rectangles = (n = 1, c = '#ff0000') => {
-  let y = 48 - n * 10;
+const wave = (c = '#ff0000', y = 138) => `
+  <path
+    d="m11,${y}c12.59556,-8.27143 25.19112,8.27143 37.78668,0l0,14.88858c-12.59556,8.27143 -25.19112,-8.27143 -37.78668,0l0,-14.88858z"
+    fill="${c}"
+    stroke-opacity="0"
+    stroke="#000000"
+  />
+`;
+
+const shapes = (y, shape, n = 1, c = '#ff0000') => {
+  y -= n * 10;
   let body = '';
   while (n--) {
-    console.log('rect', y);
-    body += rectangle(c, y);
+    body += shape(c, y);
     y += 20;
   }
   return body;
-};
-
-const waves = (n = 1, c = '#ff0000') => {
-  return '';
 };
 
 const parseColor = c =>
@@ -123,12 +117,12 @@ const parseColor = c =>
 
 function front(code) {
   const [numof, color, shape, fill] = code.split('');
-  console.log(numof, color);
-  const body = {
-    e: ellipses,
-    r: rectangles,
-    w: waves
-  }[shape](numof, parseColor(color));
+  const args = {
+    e: [55, ellipse],
+    r: [48, rectangle],
+    w: [48, wave]
+  }[shape];
+  const body = shapes(...args, numof, parseColor(color));
   return outline(body);
 }
 
@@ -136,7 +130,7 @@ let card = back();
 let stage = document.getElementById('stage');
 stage.innerHTML = card;
 
-card = front('3grt');
+card = front('2pet');
 stage.insertAdjacentHTML('beforeend', card);
 console.log('hi2');
 
