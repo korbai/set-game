@@ -95,12 +95,12 @@ const rectangle = (c = '#ff0000', y = 138) => `
     x="11"
     y="${y}"
     width="38"
-    height="15"
+    height="14"
   />
 `;
 
 const rectangles = (n = 1, c = '#ff0000') => {
-  let y = 168 - n * 10;
+  let y = 48 - n * 10;
   let body = '';
   while (n--) {
     console.log('rect', y);
@@ -136,7 +136,7 @@ let card = back();
 let stage = document.getElementById('stage');
 stage.innerHTML = card;
 
-card = front('3ret');
+card = front('3grt');
 stage.insertAdjacentHTML('beforeend', card);
 console.log('hi2');
 
