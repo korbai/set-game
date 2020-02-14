@@ -3,6 +3,17 @@ import './styles.css';
 const outline = (body, width = 60, height = 90) =>
   `
     <svg viewBox="0 0 60 90" width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="fillPatternRed" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
+          <rect x="2" y="0" width="3" height="3" fill="#ff0000" />
+        </pattern>
+        <pattern id="fillPatternGreen" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
+          <rect x="2" y="0" width="3" height="3" fill="#007f00" />
+        </pattern>
+        <pattern id="fillPatternPurple" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
+          <rect x="2" y="0" width="3" height="3" fill="#7f007f" />
+        </pattern>
+      </defs>
       <g>
         <rect ry="5" rx="5" stroke="#7f7f00" height="90" width="60" y="0" x="0" fill="#ffffdd" />
         ${body}
@@ -79,9 +90,11 @@ const ellipse = (c = '#ff0000', y = 45) => `
   />
 `;
 
-const rectangle = (c = '#ff0000', y = 138) => `
+const rectangle = (stroke = '#ff0000', fill = '#ff0000', y = 138) => `
   <rect
-    fill="${c}"
+    fill="${fill}"
+    stroke="${stroke}"
+    stroke-width="2"
     x="11"
     y="${y}"
     width="38"
@@ -98,11 +111,11 @@ const wave = (c = '#ff0000', y = 138) => `
   />
 `;
 
-const shapes = (y, shape, n = 1, c = '#ff0000') => {
+const shapes = (y, shape, n = 1, stroke = '#ff0000', fill = '#ff0000') => {
   y -= n * 10;
   let body = '';
   while (n--) {
-    body += shape(c, y);
+    body += shape(stroke, fill, y);
     y += 20;
   }
   return body;
@@ -115,14 +128,30 @@ const parseColor = c =>
     p: '#7f007f'
   }[c]);
 
+const parseFillPattern = c =>
+  ({
+    r: 'url(#fillPatternRed)',
+    g: 'url(#fillPatternGreen)',
+    p: 'url(#fillPatternPurple)'
+  }[c]);
+
+const parseFillType = (ft, c) =>
+  ({
+    e: 'transparent',
+    f: parseColor(c),
+    h: parseFillPattern(c)
+  }[ft]);
+
 function front(code) {
-  const [numof, color, shape, fill] = code.split('');
+  const [numof, color, shape, fillType] = code.split('');
   const args = {
     e: [55, ellipse],
     r: [48, rectangle],
     w: [48, wave]
   }[shape];
-  const body = shapes(...args, numof, parseColor(color));
+  const stroke = parseColor(color);
+  const fill = parseFillType(fillType, color);
+  const body = shapes(...args, numof, stroke, fill);
   return outline(body);
 }
 
@@ -130,9 +159,8 @@ let card = back();
 let stage = document.getElementById('stage');
 stage.innerHTML = card;
 
-card = front('2pet');
+card = front('2grf');
 stage.insertAdjacentHTML('beforeend', card);
-console.log('hi2');
 
 document.getElementById('app').innerHTML = `
 <h1>Set Game!!!</h1>
