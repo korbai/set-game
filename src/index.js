@@ -45,13 +45,13 @@ const back = (text = 'SET!') =>
       stroke="#000000"
       stroke-opacity="0"
       d="m1.33365,42.35937l21.81705,-0.58527l6.54283,-7.59167l6.94045,7.22996l21.81705,-0.58527l-17.52746,5.05358l6.94079,7.22995l-17.77321,-4.10671l-17.52747,5.0537l6.54318,-7.59167l-17.7732,-4.10659l-0.00001,-0.00001z"
-      fill="#00ffff"
+      fill="#77bbff"
     />
     <path
       stroke="#000000"
       stroke-opacity="0"
       d="m58.674,47.96453l-21.82368,0.2297l-6.66568,7.48405l-6.82171,-7.34209l-21.82369,0.2297l17.60748,-4.7673l-6.82206,-7.34208l17.70393,4.39577l17.6075,-4.76743l-6.66602,7.48405l17.70393,4.39564l0,-0.00001z"
-      fill="#00ffff"
+      fill="#77bbff"
     />
     <text
       font-weight="bold"
@@ -184,5 +184,7 @@ for (let i = 0; i < 12; i++) {
   let card = decks[i];
   stage.insertAdjacentHTML('beforeend', card);
 }
+
+stage.insertAdjacentHTML('beforeend', back());
 
 // outline: 4px dashed #4f4fbf;
