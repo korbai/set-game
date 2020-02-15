@@ -163,5 +163,21 @@ let stage = document.getElementById('stage');
 // color of card: g r p
 // shape of card: r e w
 // fill of shape: e f h
-let card = front('3ref');
-stage.insertAdjacentHTML('beforeend', card);
+
+let decks = [];
+
+for (let n of [1, 2, 3]) {
+  for (let c of ['g', 'r', 'p']) {
+    for (let s of ['r', 'e', 'w']) {
+      for (let f of ['e', 'f', 'h']) {
+        let card = front(`${n}${c}${s}${f}`);
+        const i = parseInt(Math.random() * (decks.length + 1), 10);
+        decks.splice(i, 0, card);
+      }
+    }
+  }
+}
+
+for (let card of decks) {
+  stage.insertAdjacentHTML('beforeend', card);
+}
