@@ -6,10 +6,12 @@ const outline = (body, width = 60, height = 90) =>
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${width}" height="${height}" viewBox="0 0 60 90">
         <defs>
           <pattern id="fillPatternRed" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
-            <rect x="2" y="0" width="3" height="3" fill="#ff0000" />
+            <rect x="2" y="0" width="2" height="2" fill="#ff0000" />
+            <rect x="1" y="1" width="2" height="2" fill="#ff0000" />
+            <rect x="0" y="2" width="2" height="2" fill="#ff0000" />
           </pattern>
           <pattern id="fillPatternGreen" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
-            <rect x="2" y="0" width="3" height="3" fill="#007f00" />
+            <rect x="0" y="0" width="3" height="6" fill="#007f00" />
           </pattern>
           <pattern id="fillPatternPurple" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
             <rect x="2" y="0" width="3" height="3" fill="#7f007f" />
