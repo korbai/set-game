@@ -78,7 +78,7 @@ const back = (text = 'SET!') =>
       y="49.47203"
       x="-25.24512"
       stroke-width="0"
-      fill="#ffffff"
+      fill="#ffffdd"
     >${text}</text>
   `);
 
