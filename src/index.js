@@ -2,23 +2,25 @@ import './styles.css';
 
 const outline = (body, width = 60, height = 90) =>
   `
-    <svg viewBox="0 0 60 90" width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="fillPatternRed" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
-          <rect x="2" y="0" width="3" height="3" fill="#ff0000" />
-        </pattern>
-        <pattern id="fillPatternGreen" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
-          <rect x="2" y="0" width="3" height="3" fill="#007f00" />
-        </pattern>
-        <pattern id="fillPatternPurple" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
-          <rect x="2" y="0" width="3" height="3" fill="#7f007f" />
-        </pattern>
-      </defs>
-      <g>
-        <rect ry="5" rx="5" stroke="#7f7f00" height="90" width="60" y="0" x="0" fill="#ffffdd" />
-        ${body}
-      </g>
-    </svg>
+    <div style="padding: 2px; margin: 8px; height: ${height}; width: ${width}; display: inline-block;">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${width}" height="${height}" viewBox="0 0 60 90">
+        <defs>
+          <pattern id="fillPatternRed" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
+            <rect x="2" y="0" width="3" height="3" fill="#ff0000" />
+          </pattern>
+          <pattern id="fillPatternGreen" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
+            <rect x="2" y="0" width="3" height="3" fill="#007f00" />
+          </pattern>
+          <pattern id="fillPatternPurple" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
+            <rect x="2" y="0" width="3" height="3" fill="#7f007f" />
+          </pattern>
+        </defs>
+        <g>
+          <rect ry="5" rx="5" stroke="#7f7f00" height="90" width="60" y="0" x="0" fill="#ffffdd" />
+          ${body}
+        </g>
+      </svg>
+    </div>
   `;
 
 const back = (text = 'SET!') =>
@@ -178,6 +180,9 @@ for (let n of [1, 2, 3]) {
   }
 }
 
-for (let card of decks) {
+for (let i = 0; i < 12; i++) {
+  let card = decks[i];
   stage.insertAdjacentHTML('beforeend', card);
 }
+
+// outline: 4px dashed #4f4fbf;
