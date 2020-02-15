@@ -157,20 +157,11 @@ function front(code) {
   return outline(body);
 }
 
-let card = back();
 let stage = document.getElementById('stage');
-stage.innerHTML = card;
 
 // number of shapes: 1 2 3
 // color of card: g r p
 // shape of card: r e w
 // fill of shape: e f h
-card = front('3rwf');
+let card = front('3ref');
 stage.insertAdjacentHTML('beforeend', card);
-
-document.getElementById('app').innerHTML = `
-<h1>Set Game!!!</h1>
-<div>
-  Under construction...
-</div>
-`;
