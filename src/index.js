@@ -11,10 +11,14 @@ const outline = (body, width = 60, height = 90) =>
             <rect x="0" y="2" width="2" height="2" fill="#ff0000" />
           </pattern>
           <pattern id="fillPatternGreen" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
-            <rect x="0" y="0" width="3" height="6" fill="#007f00" />
+            <rect x="2" y="0" width="2" height="2" fill="#007f00" />
+            <rect x="1" y="1" width="2" height="2" fill="#007f00" />
+            <rect x="0" y="2" width="2" height="2" fill="#007f00" />
           </pattern>
           <pattern id="fillPatternPurple" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
-            <rect x="2" y="0" width="3" height="3" fill="#7f007f" />
+            <rect x="2" y="0" width="2" height="2" fill="#7f007f" />
+            <rect x="1" y="1" width="2" height="2" fill="#7f007f" />
+            <rect x="0" y="2" width="2" height="2" fill="#7f007f" />
           </pattern>
         </defs>
         <g>
@@ -186,7 +190,5 @@ for (let i = 0; i < 12; i++) {
   let card = decks[i];
   stage.insertAdjacentHTML('beforeend', card);
 }
-
-stage.insertAdjacentHTML('beforeend', back());
 
 // outline: 4px dashed #4f4fbf;
