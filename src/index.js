@@ -1,8 +1,9 @@
 import './styles.css';
+import { checkServerIdentity } from 'tls';
 
-const outline = (body, width = 60, height = 90) =>
+const outline = (body, type = 'back', width = 60, height = 90) =>
   `
-    <div style="padding: 2px; margin: 8px; height: ${height}; width: ${width}; display: inline-block;">
+    <div class="card card-type-${type}" style="padding: 2px; margin: 8px; height: ${height}; width: ${width}; display: inline-block;">
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${width}" height="${height}" viewBox="0 0 60 90">
         <defs>
           <pattern id="fillPatternRed" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
@@ -162,7 +163,7 @@ function front(code) {
   const stroke = parseColor(color);
   const fill = parseFillType(fillType, color);
   const body = shapes(...args, numof, stroke, fill);
-  return outline(body);
+  return outline(body, code);
 }
 
 let stage = document.getElementById('stage');
@@ -191,4 +192,47 @@ for (let i = 0; i < 12; i++) {
   stage.insertAdjacentHTML('beforeend', card);
 }
 
-// outline: 4px dashed #4f4fbf;
+function checkSet(sets) {
+  for (let type = 0; type < 4; type++) {
+    const v = sets.map(x => x[type]);
+    if (!((v[0] === v[1] && v[0] === v[2] && v[1] === v[2]) || (v[0] !== v[1] && v[0] !== v[2] && v[1] !== v[2])))
+      return false;
+  }
+  return true;
+}
+
+function onClickCard() {
+  this.classList.add('selected');
+  setTimeout(resultCalculator, 500);
+}
+
+function resultCalculator() {
+  const selectedCards = document.getElementsByClassName('selected');
+  if (selectedCards.length > 2) {
+    const types = [];
+    for (const card of selectedCards) {
+      const type = card.className.split('-')[2];
+      types.push(type);
+    }
+
+    const isSet = checkSet(types);
+    console.log(isSet);
+
+    if (isSet) {
+      for (const type of types) {
+        const card = document.getElementsByClassName('card-type-' + type);
+        card[0].parentNode.removeChild(card[0]);
+      }
+    } else {
+      for (const type of types) {
+        const card = document.getElementsByClassName('card-type-' + type);
+        card[0].classList.remove('selected');
+      }
+    }
+  }
+}
+
+const cards = document.getElementsByClassName('card');
+for (const card of cards) {
+  card.addEventListener('click', onClickCard);
+}
