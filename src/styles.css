@@ -3,7 +3,7 @@ body {
 }
 
 .selected {
-  outline: 4px dashed #4f4fbf;
+  outline: 2px dashed #4f4fbf;
 }
 
 svg {
