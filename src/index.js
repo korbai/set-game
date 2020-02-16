@@ -187,11 +187,6 @@ for (let n of [1, 2, 3]) {
   }
 }
 
-for (let i = 0; i < 12; i++) {
-  let card = decks[i];
-  stage.insertAdjacentHTML('beforeend', card);
-}
-
 function checkSet(sets) {
   for (let type = 0; type < 4; type++) {
     const v = sets.map(x => x[type]);
@@ -223,6 +218,7 @@ function resultCalculator() {
         const card = document.getElementsByClassName('card-type-' + type);
         card[0].parentNode.removeChild(card[0]);
       }
+      addCards(3);
     } else {
       for (const type of types) {
         const card = document.getElementsByClassName('card-type-' + type);
@@ -232,7 +228,20 @@ function resultCalculator() {
   }
 }
 
-const cards = document.getElementsByClassName('card');
+function addCards(n = 12) {
+  while (n--) {
+    let card = decks.pop();
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = card;
+    const div = wrapper.firstElementChild;
+    stage.insertAdjacentElement('beforeend', div);
+    div.addEventListener('click', onClickCard);
+  }
+}
+
+addCards();
+
+/*const cards = document.getElementsByClassName('card');
 for (const card of cards) {
   card.addEventListener('click', onClickCard);
-}
+}*/
