@@ -1,5 +1,4 @@
 import './styles.css';
-import { checkServerIdentity } from 'tls';
 
 const outline = (body, type = 'back', width = 60, height = 90) =>
   `
@@ -166,7 +165,8 @@ function front(code) {
   return outline(body, code);
 }
 
-let stage = document.getElementById('stage');
+const stage = document.getElementById('stage');
+const deck = document.getElementById('deck');
 
 // number of shapes: 1 2 3
 // color of card: g r p
@@ -218,7 +218,9 @@ function resultCalculator() {
         const card = document.getElementsByClassName('card-type-' + type);
         card[0].parentNode.removeChild(card[0]);
       }
-      addCards(3);
+      if (stage.childNodes.length < 12) {
+        addCards(3);
+      }
     } else {
       for (const type of types) {
         const card = document.getElementsByClassName('card-type-' + type);
@@ -228,7 +230,31 @@ function resultCalculator() {
   }
 }
 
+function addDecks() {
+  let card = back();
+  let n = decks.length;
+  deck.addEventListener('click', () => addCards(3));
+  let x = 8;
+  let y = 0;
+  while (n--) {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = card;
+    const div = wrapper.firstElementChild;
+    div.style.margin = `${y}px 0px 0px ${x}px`;
+    x += 0.1;
+    y += 0.1;
+    deck.insertAdjacentElement('beforeend', div);
+  }
+}
+
+function dropDecks(n) {
+  while (n-- && deck.childElementCount > 0) {
+    deck.removeChild(deck.childNodes[0]);
+  }
+}
+
 function addCards(n = 12) {
+  dropDecks(n);
   while (n--) {
     let card = decks.pop();
     const wrapper = document.createElement('div');
@@ -239,6 +265,7 @@ function addCards(n = 12) {
   }
 }
 
+addDecks();
 addCards();
 
 /*const cards = document.getElementsByClassName('card');

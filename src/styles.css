@@ -10,3 +10,7 @@ svg {
   display: block;
   float: left;
 }
+
+.card-type-back {
+  position: absolute;
+}
