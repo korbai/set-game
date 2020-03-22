@@ -249,11 +249,30 @@ function addDecks() {
 
 function dropDecks(n) {
   while (n-- && deck.childElementCount > 0) {
-    deck.removeChild(deck.childNodes[0]);
+    deck.removeChild(deck.childNodes[deck.childElementCount - 1]);
   }
 }
 
 function addCards(n = 12) {
+  const cards = stage.childElementCount;
+  let col = 0;
+  let row = 1;
+  switch (cards) {
+    case 0:
+      col = 2;
+      break;
+    case 12:
+      col = 6;
+      break;
+    case 15:
+      col = 1;
+      break;
+    case 18:
+      col = 7;
+      break;
+    default:
+      return;
+  }
   dropDecks(n);
   while (n--) {
     let card = decks.pop();
@@ -262,6 +281,13 @@ function addCards(n = 12) {
     const div = wrapper.firstElementChild;
     stage.insertAdjacentElement('beforeend', div);
     div.addEventListener('click', onClickCard);
+    div.style.gridColumn = col;
+    div.style.gridRow = row;
+    row++;
+    if (row > 3) {
+      col++;
+      row = 1;
+    }
   }
 }
 
