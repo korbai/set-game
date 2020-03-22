@@ -214,12 +214,10 @@ function resultCalculator() {
     console.log(isSet);
 
     if (isSet) {
-      for (const type of types) {
-        const card = document.getElementsByClassName('card-type-' + type);
-        card[0].parentNode.removeChild(card[0]);
-      }
-      if (stage.childNodes.length < 12) {
-        addCards(3);
+      if (stage.childNodes.length === 12) {
+        replaceSelectedCardsToNewOne(types);
+      } else {
+        fillEmptySlot(types);
       }
     } else {
       for (const type of types) {
@@ -250,6 +248,66 @@ function addDecks() {
 function dropDecks(n) {
   while (n-- && deck.childElementCount > 0) {
     deck.removeChild(deck.childNodes[deck.childElementCount - 1]);
+  }
+}
+
+function searchCardByColumn(col) {
+  const cards = document.getElementsByClassName('card');
+  for (const card of cards) {
+    if (card.classList.contains('card-type-back')) continue;
+    if (card.style.gridColumnStart === '' + col) {
+      return card;
+    }
+  }
+  return null;
+}
+
+function fillEmptySlot(types) {
+  const cards = stage.childElementCount;
+  let last = 0;
+  switch (cards) {
+    case 15:
+      last = 6;
+      break;
+    case 18:
+      last = 1;
+      break;
+    case 21:
+      last = 7;
+      break;
+    default:
+      return;
+  }
+  for (const type of types) {
+    let card = document.getElementsByClassName('card-type-' + type);
+    const col = card[0].style.gridColumn;
+    const row = card[0].style.gridRow;
+    if (col === last) {
+      card[0].parentNode.removeChild(card[0]);
+    } else {
+      const lastCard = searchCardByColumn(last);
+      card[0].parentNode.removeChild(card[0]);
+      lastCard.style.gridColumn = col;
+      lastCard.style.gridRow = row;
+    }
+  }
+}
+
+function replaceSelectedCardsToNewOne(types) {
+  for (const type of types) {
+    let card = document.getElementsByClassName('card-type-' + type);
+    const col = card[0].style.gridColumn;
+    const row = card[0].style.gridRow;
+    card[0].parentNode.removeChild(card[0]);
+    dropDecks(1);
+    card = decks.pop();
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = card;
+    const div = wrapper.firstElementChild;
+    stage.insertAdjacentElement('beforeend', div);
+    div.addEventListener('click', onClickCard);
+    div.style.gridColumn = col;
+    div.style.gridRow = row;
   }
 }
 
