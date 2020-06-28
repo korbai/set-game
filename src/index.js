@@ -2,30 +2,32 @@ import './styles.css';
 
 const outline = (body, type = 'back', width = 60, height = 90) =>
   `
-    <div class="card card-type-${type}" style="padding: 2px; margin: 8px; height: ${height}; width: ${width}; display: inline-block;">
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${width}" height="${height}" viewBox="0 0 60 90">
-        <defs>
-          <pattern id="fillPatternRed" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
-            <rect x="2" y="0" width="2" height="2" fill="#ff0000" />
-            <rect x="1" y="1" width="2" height="2" fill="#ff0000" />
-            <rect x="0" y="2" width="2" height="2" fill="#ff0000" />
-          </pattern>
-          <pattern id="fillPatternGreen" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
-            <rect x="2" y="0" width="2" height="2" fill="#007f00" />
-            <rect x="1" y="1" width="2" height="2" fill="#007f00" />
-            <rect x="0" y="2" width="2" height="2" fill="#007f00" />
-          </pattern>
-          <pattern id="fillPatternPurple" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
-            <rect x="2" y="0" width="2" height="2" fill="#7f007f" />
-            <rect x="1" y="1" width="2" height="2" fill="#7f007f" />
-            <rect x="0" y="2" width="2" height="2" fill="#7f007f" />
-          </pattern>
-        </defs>
-        <g>
-          <rect ry="5" rx="5" stroke="#7f7f00" height="90" width="60" y="0" x="0" fill="#ffffdd" />
-          ${body}
-        </g>
-      </svg>
+    <div class="card card-type-${type}" style="margin: 8px auto; ">
+      <div class="card-inner" style="padding: 2px; height: ${height}; width: ${width};">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${width}" height="${height}" viewBox="0 0 60 90">
+          <defs>
+            <pattern id="fillPatternRed" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
+              <rect x="2" y="0" width="2" height="2" fill="#ff0000" />
+              <rect x="1" y="1" width="2" height="2" fill="#ff0000" />
+              <rect x="0" y="2" width="2" height="2" fill="#ff0000" />
+            </pattern>
+            <pattern id="fillPatternGreen" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
+              <rect x="2" y="0" width="2" height="2" fill="#007f00" />
+              <rect x="1" y="1" width="2" height="2" fill="#007f00" />
+              <rect x="0" y="2" width="2" height="2" fill="#007f00" />
+            </pattern>
+            <pattern id="fillPatternPurple" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
+              <rect x="2" y="0" width="2" height="2" fill="#7f007f" />
+              <rect x="1" y="1" width="2" height="2" fill="#7f007f" />
+              <rect x="0" y="2" width="2" height="2" fill="#7f007f" />
+            </pattern>
+          </defs>
+          <g>
+            <rect ry="5" rx="5" stroke="#7f7f00" height="90" width="60" y="0" x="0" fill="#ffffdd" />
+            ${body}
+          </g>
+        </svg>
+      </div>
     </div>
   `;
 
@@ -197,7 +199,7 @@ function checkSet(sets) {
 }
 
 function onClickCard() {
-  this.classList.add('selected');
+  this.getElementsByTagName('div')[0].classList.add('selected');
   setTimeout(resultCalculator, 500);
 }
 
@@ -206,7 +208,7 @@ function resultCalculator() {
   if (selectedCards.length > 2) {
     const types = [];
     for (const card of selectedCards) {
-      const type = card.className.split('-')[2];
+      const type = card.parentNode.className.split('-')[2];
       types.push(type);
     }
 
@@ -222,7 +224,7 @@ function resultCalculator() {
     } else {
       for (const type of types) {
         const card = document.getElementsByClassName('card-type-' + type);
-        card[0].classList.remove('selected');
+        card[0].getElementsByTagName('div')[0].classList.remove('selected');
       }
     }
   }
