@@ -2,9 +2,9 @@ import './styles.css';
 
 /*
   TODO
-  - ha már nincs több SET leállás
+  - ha már nincs több SET leállás képernyőn, most alert
+  - menő felirat, ha nem maradt kártya, most alert
   - árnyék a kártyák alá
-  - menő felirat, ha nem maradt kártya
   - adott idő múlva jelezzen egy kártyát ami egy SET része
   - amikor nem set villogtatni a hibát
   - új kártyák a helyükre repülnek
@@ -183,6 +183,7 @@ function front(code) {
 }
 
 function checkSet(sets) {
+  console.log('checkSet?', sets);
   for (let type = 0; type < 4; type++) {
     const v = sets.map((x) => x[type]);
     if (!((v[0] === v[1] && v[0] === v[2]) || (v[0] !== v[1] && v[0] !== v[2] && v[1] !== v[2]))) return false;
@@ -195,13 +196,47 @@ function onClickCard() {
   setTimeout(resultCalculator, 500);
 }
 
+function isAnyCardOnBoard() {
+  return document.getElementsByClassName('card').length > 0;
+}
+
+function showWow() {
+  alert('WOW!! You found all sets! Great!');
+}
+
+function checkIsSetExists() {
+  const cards = document.getElementsByClassName('card');
+  console.log(cards.length);
+  const types = [];
+  for (const card of cards) {
+    const type = card.className.split('-')[2];
+    if (type !== 'back') {
+      console.log(type);
+      types.push(type);
+    }
+  }
+  for (let i = 0; i < types.length; i++) {
+    for (let j = i + 1; j < types.length; j++) {
+      for (let k = j + 1; k < types.length; k++) {
+        if (checkSet([types[i], types[j], types[k]])) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+function showNoSetMessage() {
+  alert('NO SET!!');
+}
+
 function resultCalculator() {
   const selectedCards = document.getElementsByClassName('selected');
   if (selectedCards.length > 2) {
     const types = [];
     for (const card of selectedCards) {
       const type = card.parentNode.className.split('-')[2];
-      console.log(type);
       types.push(type);
     }
 
@@ -213,6 +248,20 @@ function resultCalculator() {
         replaceSelectedCardsToNewOne(types);
       } else {
         fillEmptySlot(types);
+      }
+      if (!isAnyCardOnBoard()) {
+        setTimeout(() => {
+          showWow();
+        }, 500);
+        return;
+      }
+      if (decks.length === 0) {
+        if (!checkIsSetExists()) {
+          setTimeout(() => {
+            showNoSetMessage();
+          }, 500);
+          return;
+        }
       }
     } else {
       for (const type of types) {
@@ -357,8 +406,9 @@ let decks = [];
 for (let n of [1, 2, 3]) {
   for (let c of ['g', 'r', 'p']) {
     for (let s of ['r', 'e', 'w']) {
-      // const f = 'e';
-      for (let f of ['e', 'f', 'h']) {
+      const f = 'e';
+      {
+        // for (let f of ['e', 'f', 'h']) {
         let card = front(`${n}${c}${s}${f}`);
         const i = parseInt(Math.random() * (decks.length + 1), 10);
         decks.splice(i, 0, card);
@@ -366,9 +416,13 @@ for (let n of [1, 2, 3]) {
     }
   }
 }
+console.log('kártyák száma: ', decks.length);
 
 addDecks();
 addCards();
+
+// console.log(checkIsSetExists());
+// showNoSetMessage();
 
 /*const cards = document.getElementsByClassName('card');
 for (const card of cards) {
