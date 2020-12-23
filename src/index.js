@@ -2,7 +2,6 @@ import './styles.css';
 
 /*
   TODO
-  - hátlap text-re ne lehessen kijelölni (CSS?)
   - ha már nincs több SET leállás
   - árnyék a kártyák alá
   - menő felirat, ha nem maradt kártya
@@ -19,7 +18,7 @@ const deck = document.getElementById('deck');
 const outline = (body, type = 'back', width = 60, height = 90) =>
   `
     <div class="card card-type-${type}" style="margin: 8px auto; ">
-      <div class="card-inner" style="padding: 2px; height: ${height}; width: ${width};">
+      <div class="card-inner noselect" style="padding: 2px; height: ${height}; width: ${width};">
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${width}" height="${height}" viewBox="0 0 60 90">
           <defs>
             <pattern id="fillPatternRed" x="6" y="6" width="5" height="5" patternUnits="userSpaceOnUse">
