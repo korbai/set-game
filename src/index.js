@@ -1,5 +1,21 @@
 import './styles.css';
 
+/*
+  TODO
+  - hátlap text-re ne lehessen kijelölni (CSS?)
+  - ha már nincs több SET leállás
+  - árnyék a kártyák alá
+  - menő felirat, ha nem maradt kártya
+  - adott idő múlva jelezzen egy kártyát ami egy SET része
+  - amikor nem set villogtatni a hibát
+  - új kártyák a helyükre repülnek
+  - kijelölt és SET kártyákat animálni
+  - több játékos: hány játékos, körbe rak, gomb és pontszám, adott időn belül, kimaradás
+*/
+
+const stage = document.getElementById('stage');
+const deck = document.getElementById('deck');
+
 const outline = (body, type = 'back', width = 60, height = 90) =>
   `
     <div class="card card-type-${type}" style="margin: 8px auto; ">
@@ -133,14 +149,14 @@ const shapes = (y, shape, n = 1, stroke = '#ff0000', fill = '#ff0000') => {
   return body;
 };
 
-const parseColor = c =>
+const parseColor = (c) =>
   ({
     r: '#ff0000',
     g: '#007f00',
     p: '#7f007f'
   }[c]);
 
-const parseFillPattern = c =>
+const parseFillPattern = (c) =>
   ({
     r: 'url(#fillPatternRed)',
     g: 'url(#fillPatternGreen)',
@@ -167,33 +183,10 @@ function front(code) {
   return outline(body, code);
 }
 
-const stage = document.getElementById('stage');
-const deck = document.getElementById('deck');
-
-// number of shapes: 1 2 3
-// color of card: g r p
-// shape of card: r e w
-// fill of shape: e f h
-
-let decks = [];
-
-for (let n of [1, 2, 3]) {
-  for (let c of ['g', 'r', 'p']) {
-    for (let s of ['r', 'e', 'w']) {
-      for (let f of ['e', 'f', 'h']) {
-        let card = front(`${n}${c}${s}${f}`);
-        const i = parseInt(Math.random() * (decks.length + 1), 10);
-        decks.splice(i, 0, card);
-      }
-    }
-  }
-}
-
 function checkSet(sets) {
   for (let type = 0; type < 4; type++) {
-    const v = sets.map(x => x[type]);
-    if (!((v[0] === v[1] && v[0] === v[2] && v[1] === v[2]) || (v[0] !== v[1] && v[0] !== v[2] && v[1] !== v[2])))
-      return false;
+    const v = sets.map((x) => x[type]);
+    if (!((v[0] === v[1] && v[0] === v[2]) || (v[0] !== v[1] && v[0] !== v[2] && v[1] !== v[2]))) return false;
   }
   return true;
 }
@@ -209,6 +202,7 @@ function resultCalculator() {
     const types = [];
     for (const card of selectedCards) {
       const type = card.parentNode.className.split('-')[2];
+      console.log(type);
       types.push(type);
     }
 
@@ -216,7 +210,7 @@ function resultCalculator() {
     console.log(isSet);
 
     if (isSet) {
-      if (stage.childNodes.length === 12) {
+      if (stage.childNodes.length <= 12) {
         replaceSelectedCardsToNewOne(types);
       } else {
         fillEmptySlot(types);
@@ -301,15 +295,18 @@ function replaceSelectedCardsToNewOne(types) {
     const col = card[0].style.gridColumn;
     const row = card[0].style.gridRow;
     card[0].parentNode.removeChild(card[0]);
-    dropDecks(1);
-    card = decks.pop();
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = card;
-    const div = wrapper.firstElementChild;
-    stage.insertAdjacentElement('beforeend', div);
-    div.addEventListener('click', onClickCard);
-    div.style.gridColumn = col;
-    div.style.gridRow = row;
+
+    if (decks.length > 0) {
+      dropDecks(1);
+      card = decks.pop();
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = card;
+      const div = wrapper.firstElementChild;
+      stage.insertAdjacentElement('beforeend', div);
+      div.addEventListener('click', onClickCard);
+      div.style.gridColumn = col;
+      div.style.gridRow = row;
+    }
   }
 }
 
@@ -347,6 +344,26 @@ function addCards(n = 12) {
     if (row > 3) {
       col++;
       row = 1;
+    }
+  }
+}
+
+// number of shapes: 1 2 3
+// color of card: g r p
+// shape of card: r e w
+// fill of shape: e f h
+
+let decks = [];
+
+for (let n of [1, 2, 3]) {
+  for (let c of ['g', 'r', 'p']) {
+    for (let s of ['r', 'e', 'w']) {
+      // const f = 'e';
+      for (let f of ['e', 'f', 'h']) {
+        let card = front(`${n}${c}${s}${f}`);
+        const i = parseInt(Math.random() * (decks.length + 1), 10);
+        decks.splice(i, 0, card);
+      }
     }
   }
 }
